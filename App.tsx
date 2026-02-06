@@ -1,6 +1,10 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { motion, AnimatePresence } from 'framer-motion';
+
 import Header from './components/Header';
 import Hero from './components/Hero';
 import FeatureSection from './components/FeatureSection';
@@ -16,9 +20,9 @@ const Home: React.FC = () => {
   const handlePreregister = useCallback(async (email: string) => {
     setLoading(true);
     setError(null);
+    setSuccess(false);
 
     try {
-      // Call the Spring Boot backend API
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/preregister';
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -35,15 +39,34 @@ const Home: React.FC = () => {
       }
 
       setSuccess(true);
+      toast.success('Successfully registered! Welcome to the network.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
     } catch (err: any) {
-      setError(err.message || 'Something went wrong. Please try again.');
+      const msg = err.message || 'Something went wrong. Please try again.';
+      setError(msg);
+      toast.error(msg, {
+        position: "top-right",
+        theme: "colored",
+      });
     } finally {
       setLoading(false);
     }
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-white"
+    >
       <Header />
       <main>
         <Hero
@@ -52,10 +75,17 @@ const Home: React.FC = () => {
           success={success}
           error={error}
         />
-        <FeatureSection />
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <FeatureSection />
+        </motion.div>
       </main>
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 
@@ -68,6 +98,7 @@ const App: React.FC = () => {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 };
