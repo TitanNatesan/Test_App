@@ -39,7 +39,7 @@ const Home: React.FC = () => {
       }
 
       setSuccess(true);
-      toast.success('Successfully registered! Welcome to the network.', {
+      toast.success(`You have successfully pre-registered for References with email: ${email}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
