@@ -1,0 +1,55 @@
+# ===========================================
+# APPLICATION CONFIGURATION TEMPLATE
+# ===========================================
+# Copy this file to application.properties and update the values
+# File location: java-backend/application.properties
+
+# ===========================================
+# SERVER CONFIGURATION
+# ===========================================
+server.port=8080
+
+# ===========================================
+# DATABASE CONFIGURATION
+# ===========================================
+# PostgreSQL Database Connection
+spring.datasource.url=jdbc:postgresql://localhost:5432/references_db
+spring.datasource.username=postgres
+spring.datasource.password=YOUR_POSTGRES_PASSWORD_HERE
+
+# Database Driver
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# JPA/Hibernate Settings
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# ===========================================
+# EMAIL CONFIGURATION (OPTIONAL)
+# ===========================================
+# Gmail SMTP Settings
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=your-email@gmail.com
+spring.mail.password=YOUR_GOOGLE_APP_PASSWORD_HERE
+
+# Email Properties
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+# ===========================================
+# INSTRUCTIONS
+# ===========================================
+#
+# 1. REQUIRED: Update PostgreSQL credentials
+#    - spring.datasource.password
+#
+# 2. OPTIONAL: Configure email (for confirmation emails)
+#    - Get Google App Password: https://myaccount.google.com/apppasswords
+#    - Update spring.mail.username and spring.mail.password
+#
+# 3. Save and run: mvn spring-boot:run
+#
+# ===========================================
